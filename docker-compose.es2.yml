@@ -1,0 +1,18 @@
+version: '2.2'
+services:
+  elasticsearch:
+    image: elasticsearch:2.0.0
+    container_name: elasticsearch1
+    environment:
+      - node.name=elasticsearch1
+      - cluster.name=docker-cluster
+      - "ES_JAVA_OPTS=-Xms256M -Xmx256M"
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - network.host=_eth0_
+    ports:
+      - 9200:9200
+  # mongo_connector:
+  #   image: fuww/mongo-connector
+  #   links:
+  #     - elasticsearch:elasticsearch

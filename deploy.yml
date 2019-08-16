@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mongodb0:
+    image: mongo:3.7
+    hostname: mongodb0
+    container_name: 'mongo_dev'
+    ports:
+      - "27017:27017"
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  elasticsearch:
+    image: elasticsearch:2.0.0
+    container_name: elasticsearch1
+    environment:
+      - node.name=elasticsearch1
+      - cluster.name=docker-cluster
+      - "ES_JAVA_OPTS=-Xms256M -Xmx256M"
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - network.host=_eth0_
+    ports:
+      - 9200:9200
+  mongo-connector:
+    image: python:2
+    command: bash -c "
+        pip install 'mongo-connector[elastic2]' &&
+        mongo-connector -m 172.16.51.197:27017 -t 172.16.51.197:9200 -d elastic2_doc_manager && 
+        echo '>>>>>>>>>>> Starting mongo-connector successfuly...'
+      "

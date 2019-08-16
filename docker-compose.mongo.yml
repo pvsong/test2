@@ -1,0 +1,8 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:3.7
+    container_name: 'mongo_dev'
+    ports:
+      - "27017:27017"
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]

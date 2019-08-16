@@ -1,0 +1,10 @@
+version: '3'
+services:
+  mongo-connector:
+    image: python:2
+    tty: true
+    command: bash -c "
+        pip install 'mongo-connector[elastic2]' &&
+        mongo-connector -m 172.16.51.197:27017 -t 172.16.51.197:9200 -d elastic2_doc_manager && 
+        echo '>>>>>>>>>>> Starting mongo-connector successfuly...'
+      "
